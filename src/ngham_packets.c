@@ -1,4 +1,4 @@
-#include "ngham_packets.h"
+#include "ngham/ngham_packets.h"
 
 void rx_pkt_init(rx_pkt_t *p){
 	p->pl_len = 0;

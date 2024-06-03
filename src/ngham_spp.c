@@ -5,13 +5,13 @@
 // with serial port contexts, and is meant as an guidance.      //
 //**************************************************************//
 
-#include "ngham_spp.h"
-#include "crc_ccitt.h"
+#include "ngham/ngham_spp.h"
+#include "ngham/crc_ccitt.h"
 #include <string.h> // For memcpy
 
 // Definition of port context port_ctx_t and port_* functions,
 // as well as packer_call which sends data to transmit chain
-#include "ngham_paths.h"
+//#include "ngham_paths.h"
 #include PATH_NGHAM_PLATFORM_SPP
 
 // Packet start byte definition

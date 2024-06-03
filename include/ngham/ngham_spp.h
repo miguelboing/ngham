@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 #include "ngham_packets.h"
-#include "ngham_paths.h"
+//#include "ngham_paths.h"
 #include PATH_NGHAM_PLATFORM_SPP
 
 #define NGHAM_SPP_TYPE_RX		0x00	// Packet types
