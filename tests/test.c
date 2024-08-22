@@ -114,12 +114,15 @@ static void ngham_decode_test(void **state)
     for (i=0;i<rand_number_of_errors;i++)
     {
         rand_error_value = random_value(0, 255);
-        rand_error_position = random_value(8, pkt_len - 1);
+
+        /* Add errors only at the payload */
+        rand_error_position = random_value(12, pkt_len - 1);
 
         while (rand_error_pos_arr[rand_error_position])
         {
-            rand_error_position = random_value(8, pkt_len - 1);
+            rand_error_position = random_value(12, pkt_len - 1);
         }
+
 
         rand_error_pos_arr[rand_error_position] = true;
 
