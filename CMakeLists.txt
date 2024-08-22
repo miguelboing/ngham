@@ -8,9 +8,10 @@ endif()
 project(ngham C)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/rsclib/include)
 
-add_library(ngham STATIC ${CMAKE_SOURCE_DIR}/src/ngham.c)
-add_library(crc_ccitt STATIC ${CMAKE_SOURCE_DIR}/src/crc_ccitt.c)
+add_library(rsclib SHARED ${CMAKE_SOURCE_DIR}/rsclib/src/rsc.c)
+add_library(ngham SHARED ${CMAKE_SOURCE_DIR}/src/ngham.c)
 
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION include)
 install(TARGETS ngham DESTINATION lib)
