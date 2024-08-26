@@ -24,10 +24,11 @@
  * \brief NGHam library unit test.
  * 
  * \author Gabriel Mariano Marcelino <gabriel.mm8@gmail.com>
+ * \author Miguel Boing <miguelboing13@gmail.com>
  * 
- * \version 0.1.0
+ * \version 1.0.0
  * 
- * \date 2023/03/12
+ * \date 2024/06/03
  * 
  * \defgroup test Test
  * \ingroup ngham
@@ -37,11 +38,19 @@
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <setjmp.h>
 #include <float.h>
+#include <string.h>
 #include <cmocka.h>
+#include <time.h>
 
 #include <ngham/ngham.h>
+
+uint16_t random_value(uint16_t min, uint16_t max);
 
 static void ngham_init_test(void **state)
 {
@@ -68,6 +77,67 @@ static void ngham_encode_test(void **state)
 
 static void ngham_decode_test(void **state)
 {
+    uint16_t i = 0U;
+    uint8_t expected_data[300];
+    uint8_t data[300];
+    uint16_t expected_data_len;
+    uint8_t rand_number_of_errors;
+    bool rand_error_pos_arr[255];
+    uint16_t rand_error_position;
+    uint8_t rand_error_value;
+
+    expected_data_len = random_value(1, 220);
+
+    for (i = 0U; i<expected_data_len;i++)
+    {
+        expected_data[i] = i;
+    }
+
+    uint16_t data_len;
+    uint8_t flags = 0U;
+
+    uint8_t pkt[512] = {0};
+    uint16_t pkt_len = UINT16_MAX;
+
+    ngham_encode(expected_data, expected_data_len, flags, pkt, &pkt_len);
+
+    /* Adding random errors */
+    if (expected_data_len < 170U)
+    {
+        rand_number_of_errors = random_value(0, 16/2);
+    }
+    else
+    {
+        rand_number_of_errors = random_value(0, 32/2);
+    }
+
+    for (i=0;i<rand_number_of_errors;i++)
+    {
+        rand_error_value = random_value(0, 255);
+
+        /* Add errors only at the payload */
+        rand_error_position = random_value(12, pkt_len - 1);
+
+        while (rand_error_pos_arr[rand_error_position])
+        {
+            rand_error_position = random_value(12, pkt_len - 1);
+        }
+
+
+        rand_error_pos_arr[rand_error_position] = true;
+
+        while (pkt[rand_error_position] == rand_error_value)
+        {
+            rand_error_value = random_value(0, 255);
+        }
+
+        pkt[rand_error_position] = rand_error_value;
+    }
+
+    assert_return_code(ngham_decode(pkt, 500, data, &data_len), 0);
+
+    assert_int_equal(data_len, expected_data_len);
+    assert_memory_equal((void*)data, (void*)expected_data, expected_data_len);
 }
 
 static void crc_ccitt_byte_test(void **state)
@@ -82,6 +152,8 @@ static void crc_ccitt_test(void **state)
 
 int main()
 {
+    srand(time(NULL));
+
     const struct CMUnitTest ngham_tests[] = {
         cmocka_unit_test(ngham_init_test),
         cmocka_unit_test(ngham_encode_test),
@@ -93,4 +165,10 @@ int main()
     return cmocka_run_group_tests(ngham_tests, NULL, NULL);
 }
 
+uint16_t random_value(uint16_t min, uint16_t max)
+{
+    return (rand() % (max - min + 1)) + min;
+}
+
 /**< \} End of test group */
+

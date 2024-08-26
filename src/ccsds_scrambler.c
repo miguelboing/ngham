@@ -16,7 +16,7 @@
  * GNU Lesser General Public License for more details.
  * 
  * You should have received a copy of the GNU Lesser General Public License
- * along with NGHam. If not, see <http://www.gnu.org/licenses/>.
+ * along with NGHam. If not, see <http:/\/www.gnu.org/licenses/>.
  * 
  */
 
@@ -24,10 +24,11 @@
  * \brief CCSDS scrambler implementation.
  * 
  * \author Gabriel Mariano Marcelino <gabriel.mm8@gmail.com>
+ * \author Miguel Boing <miguelboing13@gmail.com>
  * 
- * \version 0.1.0
+ * \version 1.0.0
  * 
- * \date 2023/03/12
+ * \date 2024/08/26
  * 
  * \addtogroup ccsds_scrambler
  * \{
@@ -62,7 +63,7 @@ const uint8_t ccsds_poly[255] = {0xFF, 0x48, 0x0E, 0xC0, 0x9A, 0x0D, 0x70, 0xBC,
 
 uint8_t ccsds_poly_pos = 0U;
 
-void ccsds_scrambler_init()
+void ccsds_scrambler_init(void)
 {
     ccsds_poly_pos = 0U;
 }
