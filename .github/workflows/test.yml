@@ -46,18 +46,15 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -y cmake libcmocka0 libcmocka-dev
-          git clone https://github.com/mgm8/rsclib.git
-          cd rsclib
-          mkdir build
-          cd build
-          cmake ..
-          make
-          sudo make install
+          git pull --recurse-submodules
+          mkdir tests/build_tests
+          cd tests/build_tests
+          cmake ../
 
       - name: Compile the test
         run: |
-          cd tests
-          make
+          cd tests/build_tests
+          cmake --build . 
 
       - name: Execute the test
-        run: ./tests/ngham_unit_test
+        run: ./tests/build_tests/ngham_test
