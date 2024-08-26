@@ -269,8 +269,9 @@ static int ngham_decode_byte(uint8_t d, uint8_t* buf)
     {
         case NGH_STATE_SIZE_TAG:
             size_tag = 0U;
+            /* No break because fall-through is intended */
 
-        case NGH_STATE_SIZE_TAG_2:
+        case NGH_STATE_SIZE_TAG_2: // cppcheck-suppress misra-c2012-16.3
             size_tag <<= 8U;
             size_tag |= d;
             decoder_state++;

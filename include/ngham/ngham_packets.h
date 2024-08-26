@@ -16,8 +16,8 @@
 #define PKT_PL_SIZE 512
 
 // Basic "not available"-values
-#define RSSI_NA				0xff
-#define TIMESTAMP_NA		0xffffffff
+#define RSSI_NA				0xffU
+#define TIMESTAMP_NA		0xffffffffU
 
 // If the following flag is set in a packet, NGHam extensions are used and first byte is type
 #define NGHAM_FLAG_TYPE_EXTENSION	0x01
