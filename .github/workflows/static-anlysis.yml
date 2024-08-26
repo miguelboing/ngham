@@ -50,4 +50,4 @@ jobs:
         run: cppcheck --std=c99 --error-exitcode=-1 --addon=misra.py $PWD/include/ngham/*
 
       - name: Execute CppCheck on source files
-        run: cppcheck --std=c99 --error-exitcode=-1 --addon=misra.py -I$PWD/include/ngham/ $PWD/src/*
+        run: cppcheck --std=c99 --error-exitcode=-1 --addon=misra.py -I$PWD/include/ngham/ -I$PWD/include/ $PWD/src/*
